@@ -456,3 +456,55 @@ This helper class calculates the resource costs for cloud training jobs and prov
 - **`calculate_hourly_cost`** in `ResourceCostCalculator` calculates the hourly cost based on resource usage.
 - **`compare_configurations`** in `ResourceCostCalculator` compares baseline and optimized configurations, providing a cost and time comparison and validating tradeoffs.
 - **`main()`** manages the execution of the cloud resource optimization, including parsing inputs, running optimization, and generating reports.
+
+
+## Usage Examples
+
+### Time Priority Optimization
+
+```bash
+# Minimize time (no specific target)
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference time --epochs 200 --log_dir ./historical_logs/
+
+# Time with specific target (e.g., finish within 30 minutes)
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference time --time_target 30 --epochs 200 --log_dir ./historical_logs/
+
+# Time optimization with skip baseline
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference time --epochs 200 --log_dir ./historical_logs/ --skip_baseline
+
+# Minimize cost (no specific target)
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference cost --epochs 200 --log_dir ./historical_logs/
+
+# Cost with specific target (e.g., stay under $15)
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference cost --cost_target 15 --epochs 200 --log_dir ./historical_logs/
+
+# Cost optimization with skip baseline
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference cost --epochs 200 --log_dir ./historical_logs/ --skip_baseline
+
+# Minimize cost (no specific target)
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference cost --epochs 200 --log_dir ./historical_logs/
+
+# Cost with specific target (e.g., stay under $15)
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference cost --cost_target 15 --epochs 200 --log_dir ./historical_logs/
+
+# Cost optimization with skip baseline
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference cost --epochs 200 --log_dir ./historical_logs/ --skip_baseline
+
+
+# Balanced with no targets (minimize both)
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference balanced --epochs 200 --log_dir ./historical_logs/
+
+# Balanced with both targets
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference balanced --time_target 30 --cost_target 20 --epochs 200 --log_dir ./historical_logs/
+
+# Balanced with skip baseline
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference balanced --time_target 30 --cost_target 20 --epochs 200 --log_dir ./historical_logs/ --skip_baseline
+
+# Specify output directory
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference time --output_dir ./my_results/ --epochs 200
+
+# Use different training files
+python main-rl-slamorl.py --training_file train-resnet50.py --preference cost --epochs 100
+
+# Quick test with fewer epochs
+python main-rl-slamorl.py --training_file train-cifar10-resnet50.py --preference balanced --epochs 50 --skip_baseline
