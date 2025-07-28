@@ -510,7 +510,7 @@ class TrainingModuleManager:
 			self.module = module
 			self.module_path = module_path
 
-			# ✅ Dynamic detection first
+			# Dynamic detection first
 			train_funcs = [name for name in dir(module) if name.startswith('train_') and callable(getattr(module, name))]
 			if train_funcs:
 				logger.info(f"Found training function: {train_funcs[0]} in {module_path}")
@@ -609,7 +609,7 @@ class TrainingModuleManager:
 				train_func = getattr(self.module, func_name)
 				break
 
-		# 🔥 Dynamic fallback: any function starting with train_
+		# Dynamic fallback: any function starting with train_
 		if not train_func:
 			train_funcs = [name for name in dir(self.module) if name.startswith('train_') and callable(getattr(self.module, name))]
 			if train_funcs:
@@ -1233,7 +1233,7 @@ class CloudEnvironment:
 		# Compute new allocation from action
 		new_allocation = self.action_space.compute_new_allocation(action_idx, self.current_allocation)
 
-		# 🔁 Auto-reduce GPUs with low utilization (<10%), keep at least 1
+		# Auto-reduce GPUs with low utilization (<10%), keep at least 1
 		gpu_utils = self.state.state_components.get('gpu_util_list', [])
 		if len(gpu_utils) > 1:
 			if all(util < 5 for util in gpu_utils):
@@ -1816,7 +1816,7 @@ class SimplePolicy:
 		"""Select action using the policy network"""
 		# state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
 		state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
-		state_tensor.requires_grad_()  # 🔥 ensures backprop tracks this
+		state_tensor.requires_grad_()  # ensures backprop tracks this
 
 		
 		with torch.no_grad():
@@ -2742,7 +2742,7 @@ class CloudResourceOptimizer:
 		# Initialize the metrics tracker
 		self.metrics_tracker = RLMetricsTracker()
 
-		num_rl_episodes = 5  # 🔁 Repeat training to give RL more chances to learn
+		num_rl_episodes = 5  # Repeat training to give RL more chances to learn
 
 		for episode in range(num_rl_episodes):
 			logger.info(f"=== Starting RL Episode {episode + 1} ===")
@@ -2867,7 +2867,7 @@ class CloudResourceOptimizer:
 				logger.warning("No epochs processed, skipping metrics save.")
 				
 		
-		# ✅ Track Pareto
+		# Track Pareto
 		pareto_options = self.cloud_env.estimate_optimal_resources()
 		self.metrics_tracker.add_pareto_front(epoch, pareto_options)
 
@@ -3242,12 +3242,12 @@ class CloudResourceOptimizer:
 								
 								# Log detailed RL adjustment summary
 								logger.info(f"\n========== OPTIMIZED RL Adjustment — Epoch {epoch} ==========")
-								logger.info(f"🎯 Action Taken       : {adjustment_metrics['action_description']}")
-								logger.info(f"🧠 Selected by Agent  : Action #{adjustment_metrics['action']} → {adjustment_metrics['action_description']}")
-								logger.info(f"🔧 Resource Allocation: GPUs {info.get('prev_allocation', {}).get('gpu_count', 0)} → {adjustment_metrics['gpu_count']}, "
+								logger.info(f"Action Taken       : {adjustment_metrics['action_description']}")
+								logger.info(f"Selected by Agent  : Action #{adjustment_metrics['action']} → {adjustment_metrics['action_description']}")
+								logger.info(f"Resource Allocation: GPUs {info.get('prev_allocation', {}).get('gpu_count', 0)} → {adjustment_metrics['gpu_count']}, "
 										  f"CPUs {info.get('prev_allocation', {}).get('cpu_count', 0)} → {adjustment_metrics['cpu_count']}, "
 										  f"Memory {info.get('prev_allocation', {}).get('memory_gb', 0):.1f}GB → {adjustment_metrics['memory_gb']:.1f}GB")
-								logger.info(f"💰 Reward: {reward:.2f} | Cost: {adjustment_metrics['reward_cost']:.2f} | SLA: {adjustment_metrics['reward_sla']:.2f}")
+								logger.info(f"Reward: {reward:.2f} | Cost: {adjustment_metrics['reward_cost']:.2f} | SLA: {adjustment_metrics['reward_sla']:.2f}")
 								logger.info("==========================================================\n")
 							else:
 								# Just update the state vector for comparison
@@ -3334,12 +3334,12 @@ class CloudResourceOptimizer:
 							
 		# 					# Log detailed RL adjustment summary
 		# 					logger.info(f"\n========== OPTIMIZED RL Adjustment — Epoch {epoch} ==========")
-		# 					logger.info(f"🎯 Action Taken       : {adjustment_metrics['action_description']}")
-		# 					logger.info(f"🧠 Selected by Agent  : Action #{adjustment_metrics['action']} → {adjustment_metrics['action_description']}")
-		# 					logger.info(f"🔧 Resource Allocation: GPUs {info.get('prev_allocation', {}).get('gpu_count', 0)} → {adjustment_metrics['gpu_count']}, "
+		# 					logger.info(f"Action Taken       : {adjustment_metrics['action_description']}")
+		# 					logger.info(f"Selected by Agent  : Action #{adjustment_metrics['action']} → {adjustment_metrics['action_description']}")
+		# 					logger.info(f"Resource Allocation: GPUs {info.get('prev_allocation', {}).get('gpu_count', 0)} → {adjustment_metrics['gpu_count']}, "
 		# 							  f"CPUs {info.get('prev_allocation', {}).get('cpu_count', 0)} → {adjustment_metrics['cpu_count']}, "
 		# 							  f"Memory {info.get('prev_allocation', {}).get('memory_gb', 0):.1f}GB → {adjustment_metrics['memory_gb']:.1f}GB")
-		# 					logger.info(f"💰 Reward: {reward:.2f} | Cost: {adjustment_metrics['reward_cost']:.2f} | SLA: {adjustment_metrics['reward_sla']:.2f}")
+		# 					logger.info(f"Reward: {reward:.2f} | Cost: {adjustment_metrics['reward_cost']:.2f} | SLA: {adjustment_metrics['reward_sla']:.2f}")
 		# 					logger.info("==========================================================\n")
 		# 				else:
 		# 					# Just update the state vector for comparison
@@ -3410,12 +3410,12 @@ class CloudResourceOptimizer:
 							
 		# 					# Log detailed RL adjustment summary
 		# 					logger.info(f"\n========== OPTIMIZED RL Adjustment — Epoch {epoch} ==========")
-		# 					logger.info(f"🎯 Action Taken       : {adjustment_metrics['action_description']}")
-		# 					logger.info(f"🧠 Selected by Agent  : Action #{adjustment_metrics['action']} → {adjustment_metrics['action_description']}")
-		# 					logger.info(f"🔧 Resource Allocation: GPUs {info.get('prev_allocation', {}).get('gpu_count', 0)} → {adjustment_metrics['gpu_count']}, "
+		# 					logger.info(f"Action Taken       : {adjustment_metrics['action_description']}")
+		# 					logger.info(f"Selected by Agent  : Action #{adjustment_metrics['action']} → {adjustment_metrics['action_description']}")
+		# 					logger.info(f"Resource Allocation: GPUs {info.get('prev_allocation', {}).get('gpu_count', 0)} → {adjustment_metrics['gpu_count']}, "
 		# 							  f"CPUs {info.get('prev_allocation', {}).get('cpu_count', 0)} → {adjustment_metrics['cpu_count']}, "
 		# 							  f"Memory {info.get('prev_allocation', {}).get('memory_gb', 0):.1f}GB → {adjustment_metrics['memory_gb']:.1f}GB")
-		# 					logger.info(f"💰 Reward: {reward:.2f} | Cost: {adjustment_metrics['reward_cost']:.2f} | SLA: {adjustment_metrics['reward_sla']:.2f}")
+		# 					logger.info(f"Reward: {reward:.2f} | Cost: {adjustment_metrics['reward_cost']:.2f} | SLA: {adjustment_metrics['reward_sla']:.2f}")
 		# 					logger.info("==========================================================\n")
 		# 				else:
 		# 					# Just update the state vector for comparison
